@@ -1,0 +1,60 @@
+Program running process:
+
+python tok2id.py data/wiki/ch/
+tmp 
+├── itos_.pkl
+├── tok_trn.npy
+├── tok_val.npy
+├── trn_ids.npy
+└── val_ids.npy
+
+python pretrain_lm.py data/wiki/ch/ -1 --lr 1e-3 --cl 1
+data/wiki/ch/
+├── models
+│   ├── fwd__enc.h5
+│   └── fwd_.h5
+└── tmp
+    ├── itos_.pkl
+    ├── tok_trn.npy
+    ├── tok_val.npy
+    ├── trn_ids.npy
+    └── val_ids.npy
+last:96h
+
+python finetune_lm.py data/wiki/ch/ data/wiki/ch/ -1 10 --lm-id pretrain_ 
+(only for your main data that classfication!!!!!!!!!!!!!!!!!!!!!)
+├── models
+│   ├── fwd__enc.h5
+│   ├── fwd_.h5
+│   ├── fwd_pretrain__lm_enc.h5
+│   └── fwd_pretrain__lm.h5
+└── tmp
+    ├── itos_.pkl
+    ├── tok_trn.npy
+    ├── tok_val.npy
+    ├── trn_ids.np
+    └── val_ids.npy
+last:128h
+ 
+python train_clas.py data/wiki/ch/ -1 --lm-id pretrain_ --clas-id pretrain_ --cl 10 
+├── models
+│   ├── fwd__enc.h5
+│   ├── fwd_.h5
+│   ├── fwd_pretrain__clas_0.h5
+│   ├── fwd_pretrain__lm_enc.h5
+│   └── fwd_pretrain__lm.h5
+├── tmp
+│   ├── itos_.pkl
+│   ├── lbl_trn.npy
+│   ├── lbl_val.npy
+│   ├── trn_ids.npy
+│   └── val_ids.npy
+└── tmp_model  (for pretrain!!!!) 
+    ├── itos_.pkl
+    ├── tok_trn.npy
+    ├── tok_val.npy
+    ├── trn_ids.npy
+    └── val_ids.npy
+last: one week
+
+python eval_clas.py data/wiki/ch/ -1 --lm-id pretrain_ --clas-id pretrain_
